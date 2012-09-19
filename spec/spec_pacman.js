@@ -37,14 +37,6 @@ describe("Pacman", function() {
 
   });
 
-  xit("walks left at each turn", function() {
-    var game = new PacmanGame(3,3);
-    
-    game.changedir('left');
-    game.next();
-    expect(game.cell(0,1)).toBe('V');
-
-  });
 
   it("changes the direction", function(){
     var game = new PacmanGame(3,3);
@@ -62,6 +54,14 @@ describe("Pacman", function() {
 
   });
 
+  it("walks left at each turn", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('left');
+    game.next();
+    expect(game.cell(1,0)).toBe('>');
+
+  });
 
 
 

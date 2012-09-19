@@ -10,25 +10,29 @@ PacmanGame = function(rows, cols){
 	pacFace['down'] = 'A';
 	pacFace['up'] = 'V';
 
-	var pacState = pacFace['up'];
+	var pacState = "up";
 
 
 
 	this.cell =  function(row, col){ 
 		if( row == pac_y && col == pac_x) {
-			return pacState;
+			return pacFace[pacState];
 		} else {
 			return '.'
 		}
 	}
 
 	this.next = function(){
-		if (-- pac_y < 0){
-			pac_y = rows - 1;
+		if (pacState == "up"){
+			if (-- pac_y < 0){
+				pac_y = rows - 1;
+			}
+		} else{
+			-- pac_x;
 		}
 	}
 
 	this.changeDir = function(direction) {
-		pacState = pacFace[direction];	
+		pacState = direction;	
 	}
 }
