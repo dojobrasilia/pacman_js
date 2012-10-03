@@ -18,20 +18,30 @@ PacmanGame = function(rows, cols){
 		right:  {y:+0,x:+1},
 		left:   {y:+0,x:-1}	
 	}
+	var board = [];
 
-	this.cell =  function(row, col){ 
-		if( row == pac_y && col == pac_x) {
-			return pacFace[pacState];
-		} else {
-			return '.'
+	for(var y = 0; y < rows; y ++){
+		row = [];
+		board.push(row);
+		for(var x = 0; x < cols; x ++){
+			row.push('.');
 		}
 	}
 
+	board[center][center] = pacFace[pacState];
+	
+
+	this.cell =  function(row, col){ 
+		return board[row][col];
+	}
+
 	this.next = function(){
+
 		this.move(directions[pacState]);
 	}
 
 	this.move = function(direction){
+
 		pac_x += direction.x;
 		pac_y += direction.y;
 
@@ -47,10 +57,13 @@ PacmanGame = function(rows, cols){
 		if (pac_y  >= rows){
 			pac_y = 0;
 		}
+
+		board[pac_y][pac_x] = pacFace[pacState];
 		
 	}
 
 	this.changeDir = function(direction) {
-		pacState = direction;	
+		pacState = direction;
+		board[pac_y][pac_x] = pacFace[pacState];
 	}
 }

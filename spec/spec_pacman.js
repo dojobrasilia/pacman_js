@@ -111,4 +111,24 @@ describe("Pacman", function() {
 
   });
 
+  xit("eats dot when moves", function() {
+     var game = new PacmanGame(3,3);
+    
+      game.changeDir('down');
+      game.next();
+      expect(game.cell(1,1)).toBe(' '); 
+  });
+
+  xit("eats dots when moves", function() {
+     var game = new PacmanGame(3,3);
+    
+      game.changeDir('down');
+      game.next();
+      game.next();
+      expect(game.cell(1,1)).toBe(' ');
+      expect(game.cell(2,1)).toBe(' ');
+  });
+
+
+
 });
