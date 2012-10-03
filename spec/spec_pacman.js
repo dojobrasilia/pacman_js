@@ -63,8 +63,52 @@ describe("Pacman", function() {
 
   });
 
+  it("walks left and wraps when hits the edge", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('left')
+    game.next();
+    game.next();
+    expect(game.cell(1,2)).toBe('>');
 
+  });
 
+  it("walks right at each turn", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('right');
+    game.next();
+    expect(game.cell(1,2)).toBe('<');
 
+  });
+
+  it("walks right and wraps when hits the edge", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('right')
+    game.next();
+    game.next();
+    expect(game.cell(1,0)).toBe('<');
+
+  });
+
+  it("walks down at each turn", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('down');
+    game.next();
+    expect(game.cell(2,1)).toBe('A');
+
+  });
+
+  it("walks downwards and wraps when hits the edge", function() {
+    var game = new PacmanGame(3,3);
+    
+    game.changeDir('down')
+    game.next();
+    game.next();
+    expect(game.cell(0,1)).toBe('A');
+
+  });
 
 });

@@ -27,8 +27,18 @@ PacmanGame = function(rows, cols){
 			if (-- pac_y < 0){
 				pac_y = rows - 1;
 			}
-		} else{
-			-- pac_x;
+		} else if (pacState == "right"){
+			if (++ pac_x >= cols ){
+				pac_x = 0
+			}
+		}else if (pacState == "left"){
+			if (-- pac_x < 0){
+				pac_x = cols - 1;
+			}
+		}else if (pacState == "down"){
+			if (++ pac_y  >= rows){
+				pac_y = 0;
+			}
 		}
 	}
 
