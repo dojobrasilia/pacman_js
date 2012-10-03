@@ -1,69 +1,81 @@
-PacmanGame = function(rows, cols){
+function PacmanGame(rows, cols){
+	this.init(rows,cols);
+}
+PacmanGame.prototype = {
+	init: function(rows, cols){
+		this.rows = rows;
+		this.cols = cols;
+		var center = Math.round(rows/2) -1;
+		this.pacState = "up";
 
-	var center = Math.round(rows/2) -1,
-		pac_x = center,
-		pac_y = center,
-		pacState = "up";
+		this.pac_x = center;
+		this.pac_y = center;
 
-	var pacFace = {
-		left:  '>',
-		right: '<',
-		down:  'A',
-		up:    'V'	
-	}	
+		this.pacFace = {
+			left:  '>',
+			right: '<',
+			down:  'A',
+			up:    'V'	
+		}	
 
-	var directions = {
-		up:     {y:-1,x:+0},
-		down:   {y:+1,x:+0},
-		right:  {y:+0,x:+1},
-		left:   {y:+0,x:-1}	
-	}
-	var board = [];
-
-	for(var y = 0; y < rows; y ++){
-		row = [];
-		board.push(row);
-		for(var x = 0; x < cols; x ++){
-			row.push('.');
+		this.directions = {
+			up:     {y:-1,x:+0},
+			down:   {y:+1,x:+0},
+			right:  {y:+0,x:+1},
+			left:   {y:+0,x:-1}	
 		}
-	}
+		this.board = [];
 
-	board[center][center] = pacFace[pacState];
-	
+		this.initBoard();
+	},
 
-	this.cell =  function(row, col){ 
-		return board[row][col];
-	}
-
-	this.next = function(){
-
-		this.move(directions[pacState]);
-	}
-
-	this.move = function(direction){
-
-		pac_x += direction.x;
-		pac_y += direction.y;
-
-		if (pac_y < 0){
-			pac_y = rows - 1;
+	initBoard : function(){
+		for(var y = 0; y < this.rows; y ++){
+			row = [];
+			this.board.push(row);
+			for(var x = 0; x < this.cols; x ++){
+				row.push('.');
+			}
 		}
-		if (pac_x >= cols ){
-			pac_x = 0
+		this.updateFace();
+	},
+
+	cell :  function(row, col){ 
+		return this.board[row][col];
+	},
+
+	next : function(){
+		this.move(this.directions[this.pacState]);
+	},
+
+	move : function(direction){
+
+		this.pac_x += direction.x;
+		this.pac_y += direction.y;
+
+		if (this.pac_y < 0){
+			this.pac_y = this.rows - 1;
 		}
-		if (pac_x < 0){
-			pac_x = cols - 1;
+		if (this.pac_x >= this.cols ){
+			this.pac_x = 0
 		}
-		if (pac_y  >= rows){
-			pac_y = 0;
+		if (this.pac_x < 0){
+			this.pac_x = this.cols - 1;
+		}
+		if (this.pac_y  >= this.rows){
+			this.pac_y = 0;
 		}
 
-		board[pac_y][pac_x] = pacFace[pacState];
+		this.updateFace();
 		
-	}
+	},
 
-	this.changeDir = function(direction) {
-		pacState = direction;
-		board[pac_y][pac_x] = pacFace[pacState];
-	}
+	changeDir : function(direction) {
+		this.pacState = direction;
+		this.updateFace();
+	},
+
+	updateFace : function(){
+		this.board[this.pac_y][this.pac_x] = this.pacFace[this.pacState];
+	},
 }
