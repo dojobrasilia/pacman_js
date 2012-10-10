@@ -111,7 +111,7 @@ describe("Pacman", function() {
 
   });
 
-  xit("eats dot when moves", function() {
+  it("eats dot when moves", function() {
      var game = new PacmanGame(3,3);
     
       game.changeDir('down');
@@ -119,7 +119,7 @@ describe("Pacman", function() {
       expect(game.cell(1,1)).toBe(' '); 
   });
 
-  xit("eats dots when moves", function() {
+  it("eats dots when moves", function() {
      var game = new PacmanGame(3,3);
     
       game.changeDir('down');

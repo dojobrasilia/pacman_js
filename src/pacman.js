@@ -49,6 +49,7 @@ PacmanGame.prototype = {
 	},
 
 	move : function(direction){
+		this.eraseCurrentPosition();
 
 		this.pac_x += direction.x;
 		this.pac_y += direction.y;
@@ -73,6 +74,10 @@ PacmanGame.prototype = {
 	changeDir : function(direction) {
 		this.pacState = direction;
 		this.updateFace();
+	},
+
+	eraseCurrentPosition : function(){
+		this.board[this.pac_y][this.pac_x] = ' ';
 	},
 
 	updateFace : function(){
