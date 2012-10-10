@@ -167,5 +167,25 @@ describe("PacmanView", function() {
     expect(div.find('td').eq(6).text()).toBe('•');
     expect(div.find('td').eq(7).text()).toBe('•');
     expect(div.find('td').eq(8).text()).toBe('•');
+  });  
+
+  it("updates the position every 200ms", function() {
+    var game = new PacmanGame(3,3);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    jasmine.Clock.useMock();
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(0).text()).toBe('•');
+    expect(div.find('td').eq(1).text()).toBe('V');
+    expect(div.find('td').eq(2).text()).toBe('•');
+    expect(div.find('td').eq(3).text()).toBe('•');
+    expect(div.find('td').eq(4).text()).toBe(' ');
+    expect(div.find('td').eq(5).text()).toBe('•');
+    expect(div.find('td').eq(6).text()).toBe('•');
+    expect(div.find('td').eq(7).text()).toBe('•');
+    expect(div.find('td').eq(8).text()).toBe('•');
+
   });
 });

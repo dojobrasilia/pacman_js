@@ -5,7 +5,7 @@ PacmanGame.prototype = {
 	init: function(rows, cols){
 		this.rows = rows;
 		this.cols = cols;
-		var center = Math.round(rows/2) -1;
+		var center = Math.floor(rows/2);
 		this.pacState = "up";
 
 		this.pac_x = center;
@@ -95,5 +95,7 @@ function PacmanGameView(game, container) {
 			
 			row.append($('<td>').html(value));	
 		}
-	}	
+	}
+	setInterval(game.next, 200);	
+		
 }
