@@ -158,14 +158,14 @@ describe("PacmanView", function() {
     expect(div.find('tr').length).toBe(3);
     expect(div.find('td').length).toBe(9);
 
-    expect(div.find('td').eq(0).text()).toBe('.');
-    expect(div.find('td').eq(1).text()).toBe('.');
-    expect(div.find('td').eq(2).text()).toBe('.');
-    expect(div.find('td').eq(3).text()).toBe('.');
+    expect(div.find('td').eq(0).text()).toBe('•');
+    expect(div.find('td').eq(1).text()).toBe('•');
+    expect(div.find('td').eq(2).text()).toBe('•');
+    expect(div.find('td').eq(3).text()).toBe('•');
     expect(div.find('td').eq(4).text()).toBe('V');
-    expect(div.find('td').eq(5).text()).toBe('.');
-    expect(div.find('td').eq(6).text()).toBe('.');
-    expect(div.find('td').eq(7).text()).toBe('.');
-    expect(div.find('td').eq(8).text()).toBe('.');
+    expect(div.find('td').eq(5).text()).toBe('•');
+    expect(div.find('td').eq(6).text()).toBe('•');
+    expect(div.find('td').eq(7).text()).toBe('•');
+    expect(div.find('td').eq(8).text()).toBe('•');
   });
 });

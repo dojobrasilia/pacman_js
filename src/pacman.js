@@ -90,7 +90,10 @@ function PacmanGameView(game, container) {
 	for (var r = 0 ; r < game.rows; r ++){
 		var row = $('<tr>').appendTo(table);
 		for (var c = 0 ; c < game.cols; c ++){
-			row.append($('<td>').text(game.cell(r, c)));			
+			var value = game.cell(r, c)
+			if (value == '.') value = '•';
+			
+			row.append($('<td>').html(value));	
 		}
 	}	
 }

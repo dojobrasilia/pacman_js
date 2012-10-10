@@ -1,16 +1,40 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>pacman</title>
 
   <script type="text/javascript" src="lib/jquery.js"></script>
   <script type="text/javascript" src="src/pacman.js"></script>
 
+  <style type="text/css">
+  	#pacman td{
+  		width: 10px;
+  		height: 10px;
+  		line-height: 10px;
+  		/*border: 1px solid black;*/
+  		font-family: Courier;
+  		text-align: center;
+  		vertical-align: middle;
+  	}
+  	#pacman table{
+  		border: 1px solid black;
+  	}
+  </style>
+
 </head>
 
 <body>
-	<table>
-		<td></td>
-	</table>
+
+	<div id="pacman" >
+
+	</div>
+
+	<script type="text/javascript">
+		var game = new PacmanGame(11, 11);
+		new PacmanGameView(game, $("#pacman"));
+	</script>
+
+
 </body>
 </html>
