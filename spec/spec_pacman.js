@@ -132,3 +132,40 @@ describe("Pacman", function() {
 
 
 });
+
+
+describe("PacmanView", function() {
+  
+  it("renders table with 1 cell", function() {
+    var game = new PacmanGame(1,1);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    expect(div).toContain('table');
+
+    expect(div.find('tr').length).toBe(1);
+    expect(div.find('td').length).toBe(1);
+    expect(div.find('td').text()).toBe('V')
+  });
+
+  it("renders table with 3x3 cells", function() {
+    var game = new PacmanGame(3,3);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    expect(div).toContain('table');
+
+    expect(div.find('tr').length).toBe(3);
+    expect(div.find('td').length).toBe(9);
+
+    expect(div.find('td').eq(0).text()).toBe('.');
+    expect(div.find('td').eq(1).text()).toBe('.');
+    expect(div.find('td').eq(2).text()).toBe('.');
+    expect(div.find('td').eq(3).text()).toBe('.');
+    expect(div.find('td').eq(4).text()).toBe('V');
+    expect(div.find('td').eq(5).text()).toBe('.');
+    expect(div.find('td').eq(6).text()).toBe('.');
+    expect(div.find('td').eq(7).text()).toBe('.');
+    expect(div.find('td').eq(8).text()).toBe('.');
+  });
+});

@@ -84,3 +84,13 @@ PacmanGame.prototype = {
 		this.board[this.pac_y][this.pac_x] = this.pacFace[this.pacState];
 	},
 }
+
+function PacmanGameView(game, container) {
+	var table = $('<table>').appendTo(container);
+	for (var r = 0 ; r < game.rows; r ++){
+		var row = $('<tr>').appendTo(table);
+		for (var c = 0 ; c < game.cols; c ++){
+			row.append($('<td>').text(game.cell(r, c)));			
+		}
+	}	
+}
