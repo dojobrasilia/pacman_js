@@ -85,3 +85,44 @@ h1. =[
 h1. OBS
 
 * Galera vai trazer o mac pra ter uma revanche
+
+------------------------------------------------------------------
+
+h1. 17/10/2012
+
+h1. Presentes:
+
+* Flavio Alves
+* Michele Protzek (vazou mais cedo)
+* Julio Protzek
+* João Stein
+* Flávio Leal
+* Fabs Buzeto
+* Diego Azevedo
+* Radamés Roriz
+* Germano Lisboa
+
+h1. =]
+
+* Galera nova
+* Gente voltando
+* Já dá pra jogar
+* Refatoramos bem
+* Aprendizados sobre escopo, mock do tick, stub de eventos do keypress
+* Começamos no horário
+
+h1. =[
+
+* Demos um mega passo no início do jogo
+* Estamos fugindo de uma refatoração importante (tratar eventos em tempo real)
+* Galera tímida
+* Certas pessoas chegaram atrasado
+
+
+h1. OBS
+
+* var holyMolly === 1;
+* to be continued...
+
+
+
