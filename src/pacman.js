@@ -86,32 +86,35 @@ PacmanGame.prototype = {
 }
 
 function PacmanGameView(game, container) {
-	var table = $('<table>').appendTo(container);
-	for (var r = 0 ; r < game.rows; r ++){
-		var row = $('<tr>').appendTo(table);
-		for (var c = 0 ; c < game.cols; c ++){
-			var value = game.cell(r, c);
-			if (value == '.') value = '•';
-			
-			row.append($('<td>').html(value));	
-		}
-	}
-	
-	setInterval(function(){
-      
-    	game.next();
-        table.remove();
+	 	this.init(game, container);
+}
 
-	    table = $('<table>').appendTo(container);
-		for (var r = 0 ; r < game.rows; r ++){
+PacmanGameView.prototype = {
+	init : function(game, container){
+		this.container = container;
+		this.game = game;
+		this.createTable();
+		var self = this;
+
+		setInterval(function(){
+			console.log(this);
+	    	game.next();
+	        self.container.html('');
+		    self.createTable();
+		}, 200); 
+	},
+
+	createTable: function(){
+		var table = $('<table>').appendTo(this.container);
+		for (var r = 0 ; r < this.game.rows; r ++){
 			var row = $('<tr>').appendTo(table);
-			for (var c = 0 ; c < game.cols; c ++){
-				var value = game.cell(r, c);
+			for (var c = 0 ; c < this.game.cols; c ++){
+				var value = this.game.cell(r, c);
 				if (value == '.') value = '•';
 				
 				row.append($('<td>').html(value));	
 			}
 		}
-
-	}, 200);  	
+		
+	}
 }

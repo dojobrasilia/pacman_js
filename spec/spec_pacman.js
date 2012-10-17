@@ -140,6 +140,10 @@ describe("Pacman", function() {
 
 describe("PacmanView", function() {
   
+  beforeEach(function(){
+    jasmine.Clock.useMock();
+  });
+
   it("renders table with 1 cell", function() {
     var game = new PacmanGame(1,1);
     var div = $('<div>');
@@ -175,7 +179,6 @@ describe("PacmanView", function() {
 
   it("updates the position every 200ms", function() {
     var game = new PacmanGame(3,3);
-    jasmine.Clock.useMock();
     
     var div = $('<div>');
 
