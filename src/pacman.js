@@ -90,12 +90,28 @@ function PacmanGameView(game, container) {
 	for (var r = 0 ; r < game.rows; r ++){
 		var row = $('<tr>').appendTo(table);
 		for (var c = 0 ; c < game.cols; c ++){
-			var value = game.cell(r, c)
+			var value = game.cell(r, c);
 			if (value == '.') value = '•';
 			
 			row.append($('<td>').html(value));	
 		}
 	}
-	setInterval(game.next, 200);	
-		
+	
+	setInterval(function(){
+      
+    	game.next();
+        table.remove();
+
+	    table = $('<table>').appendTo(container);
+		for (var r = 0 ; r < game.rows; r ++){
+			var row = $('<tr>').appendTo(table);
+			for (var c = 0 ; c < game.cols; c ++){
+				var value = game.cell(r, c);
+				if (value == '.') value = '•';
+				
+				row.append($('<td>').html(value));	
+			}
+		}
+
+	}, 200);  	
 }

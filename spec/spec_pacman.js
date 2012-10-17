@@ -129,7 +129,11 @@ describe("Pacman", function() {
       expect(game.cell(2,1)).toBe(' ');
   });
 
+  xit("Informs PacmanGameView of changes in the board", function() {
+    var game = new PacmanGame(3,3);
+    var view  = PacmanGameView(game);
 
+  });
 
 });
 
@@ -171,12 +175,13 @@ describe("PacmanView", function() {
 
   it("updates the position every 200ms", function() {
     var game = new PacmanGame(3,3);
+    jasmine.Clock.useMock();
+    
     var div = $('<div>');
+
     var gameView = new PacmanGameView(game,div);
 
-    jasmine.Clock.useMock();
     jasmine.Clock.tick(201);
-
     expect(div.find('td').eq(0).text()).toBe('•');
     expect(div.find('td').eq(1).text()).toBe('V');
     expect(div.find('td').eq(2).text()).toBe('•');
