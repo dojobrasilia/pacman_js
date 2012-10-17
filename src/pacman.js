@@ -96,6 +96,13 @@ PacmanGameView.prototype = {
 		this.createTable();
 		var self = this;
 
+		this.keyCode = {
+			37	: 'left',
+			38	: 'up',
+			39	: 'right',
+			40	: 'down'
+		};
+
 		setInterval(function(){
 	    	game.next();
 	        self.container.html('');
@@ -103,15 +110,9 @@ PacmanGameView.prototype = {
 		}, 200);
 
 		$(window).keyup(function(e){
-			if(e.keyCode === 37) {
-				game.changeDir('left');
-			} else if(e.keyCode === 39) {
-				game.changeDir('right');
-			} else if(e.keyCode === 38) {
-				game.changeDir('up');
-			} else if(e.keyCode === 40) {
-				game.changeDir('down');
-			} 
+			if (self.keyCode[e.keyCode]){
+				game.changeDir(self.keyCode[e.keyCode]);
+			}
 		});
 	},
 
