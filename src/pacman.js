@@ -97,11 +97,22 @@ PacmanGameView.prototype = {
 		var self = this;
 
 		setInterval(function(){
-			console.log(this);
 	    	game.next();
 	        self.container.html('');
 		    self.createTable();
-		}, 200); 
+		}, 200);
+
+		$(window).keyup(function(e){
+			if(e.keyCode === 37) {
+				game.changeDir('left');
+			} else if(e.keyCode === 39) {
+				game.changeDir('right');
+			} else if(e.keyCode === 38) {
+				game.changeDir('up');
+			} else if(e.keyCode === 40) {
+				game.changeDir('down');
+			} 
+		});
 	},
 
 	createTable: function(){

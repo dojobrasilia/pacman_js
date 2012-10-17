@@ -129,12 +129,6 @@ describe("Pacman", function() {
       expect(game.cell(2,1)).toBe(' ');
   });
 
-  xit("Informs PacmanGameView of changes in the board", function() {
-    var game = new PacmanGame(3,3);
-    var view  = PacmanGameView(game);
-
-  });
-
 });
 
 
@@ -196,4 +190,48 @@ describe("PacmanView", function() {
     expect(div.find('td').eq(8).text()).toBe('•');
 
   });
+
+  it("changes direction to left when presses on left arrow", function() {
+    var game = new PacmanGame(3,3);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    $(window).trigger(jQuery.Event("keyup", { keyCode: 37 }));
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(3).text()).toBe('>');
+
+    $(window).trigger(jQuery.Event("keyup", { keyCode: 39 }));
+  
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(4).text()).toBe('<');
+  
+    $(window).trigger(jQuery.Event("keyup", { keyCode: 38 }));
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(1).text()).toBe('V');
+
+    $(window).trigger(jQuery.Event("keyup", { keyCode: 40 }));
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(4).text()).toBe('A');
+  });
+
+  it("does nothing for any other key", function() {
+    var game = new PacmanGame(3,3);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    $(window).trigger(jQuery.Event("keyup", { keyCode: 2 }));
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('td').eq(1).text()).toBe('V');
+
+  });
+
 });
