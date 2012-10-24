@@ -48,27 +48,36 @@ PacmanGame.prototype = {
 		this.move(this.directions[this.pacState]);
 	},
 
+	nextPosition : function(direction){
+		var pacX = this.pac_x;
+		var pacY = this.pac_y;
+		pacX += direction.x;
+		pacY += direction.y;
+
+		if (pacY < 0){
+			pacY = this.rows - 1;
+		}
+		if (pacX >= this.cols ){
+			pacX = 0
+		}
+		if (pacX < 0){
+			pacX = this.cols - 1;
+		}
+		if (pacY  >= this.rows){
+			pacY = 0;
+		}
+
+		return {x: pacX, y: pacY}
+	},
+
 	move : function(direction){
-		this.eraseCurrentPosition();
-
-		this.pac_x += direction.x;
-		this.pac_y += direction.y;
-
-		if (this.pac_y < 0){
-			this.pac_y = this.rows - 1;
+		var probe = this.nextPosition(this.directions[this.pacState]);
+		if(this.cell(probe.y, probe.x) !== '#'){
+			this.eraseCurrentPosition();
+			this.pac_x = probe.x;
+			this.pac_y = probe.y;
+			this.updateFace();
 		}
-		if (this.pac_x >= this.cols ){
-			this.pac_x = 0
-		}
-		if (this.pac_x < 0){
-			this.pac_x = this.cols - 1;
-		}
-		if (this.pac_y  >= this.rows){
-			this.pac_y = 0;
-		}
-
-		this.updateFace();
-		
 	},
 
 	changeDir : function(direction) {
@@ -82,14 +91,17 @@ PacmanGame.prototype = {
 	},
 
 	updateFace : function(){
-
 		this.board[this.pac_y][this.pac_x] = this.pacFace[this.pacState];
 		if (this.view)	this.view.updateCell(this.pac_y,this.pac_x);
 	},
 
-	setObserver : function(view){
+	setView : function(view){
 		this.view = view;
-	}
+	},
+
+	setWall : function(y,x){
+		this.board[y][x]='#';
+	},
 }
 
 function PacmanGameView(game, container) {
@@ -102,7 +114,7 @@ PacmanGameView.prototype = {
 		this.game = game;
 		this.createTable();
 		var self = this;
-		game.setObserver(this);
+		game.setView(this);
 
 		this.keyCode = {
 			37	: 'left',
@@ -113,7 +125,6 @@ PacmanGameView.prototype = {
 
 		setInterval(function(){
 	    	game.next();
-	        
 		}, 200);
 
 		$(window).keyup(function(e){

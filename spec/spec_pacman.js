@@ -139,7 +139,7 @@ describe("Pacman", function() {
       expect(y).toBe(1);
       expect(game.cell(y,x)).toBe('>');
     }
-    game.setObserver(observer);
+    game.setView(observer);
     game.changeDir("left");
     expect(calledUpdate).toBe(true);
   });
@@ -162,11 +162,19 @@ describe("Pacman", function() {
       }
     }
 
-    game.setObserver(observer);
+    game.setView(observer);
     game.next();
 
     expect(countEvents).toBe(2);
     expect(calledUnexpectedPosition).toBe(false);
+  });
+
+  it("stops at a wall", function() {
+    var game = new PacmanGame(3,3);
+    game.setWall(0,1);
+    game.next();
+    expect(game.cell(1,1)).toBe('V');
+
   });
 
 });
