@@ -129,6 +129,46 @@ describe("Pacman", function() {
       expect(game.cell(2,1)).toBe(' ');
   });
 
+  it("notify observer when change direction", function(){
+    var game = new PacmanGame(3,3);
+    var observer = new Object();
+    var calledUpdate = false;
+    observer.updateCell = function(y,x){
+      calledUpdate = true;
+      expect(x).toBe(1);
+      expect(y).toBe(1);
+      expect(game.cell(y,x)).toBe('>');
+    }
+    game.setObserver(observer);
+    game.changeDir("left");
+    expect(calledUpdate).toBe(true);
+  });
+
+  it("notify observer when moves", function(){
+    var game = new PacmanGame(3,3);
+    var observer = new Object();
+    var countEvents = 0;
+    var calledUnexpectedPosition = false;
+
+    observer.updateCell = function(y,x){
+      countEvents++;
+      if( x == 1 && y == 0){
+        expect(game.cell(y,x)).toBe('V');
+      }else if( x == 1 && y == 1){
+        expect(game.cell(y,x)).toBe(' ');
+      }else{
+        console.log(x+','+y)
+        calledUnexpectedPosition = true;
+      }
+    }
+
+    game.setObserver(observer);
+    game.next();
+
+    expect(countEvents).toBe(2);
+    expect(calledUnexpectedPosition).toBe(false);
+  });
+
 });
 
 

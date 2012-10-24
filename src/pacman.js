@@ -78,11 +78,18 @@ PacmanGame.prototype = {
 
 	eraseCurrentPosition : function(){
 		this.board[this.pac_y][this.pac_x] = ' ';
+		if (this.view)	this.view.updateCell(this.pac_y,this.pac_x);
 	},
 
 	updateFace : function(){
+
 		this.board[this.pac_y][this.pac_x] = this.pacFace[this.pacState];
+		if (this.view)	this.view.updateCell(this.pac_y,this.pac_x);
 	},
+
+	setObserver : function(view){
+		this.view = view;
+	}
 }
 
 function PacmanGameView(game, container) {
@@ -95,6 +102,7 @@ PacmanGameView.prototype = {
 		this.game = game;
 		this.createTable();
 		var self = this;
+		game.setObserver(this);
 
 		this.keyCode = {
 			37	: 'left',
@@ -105,8 +113,7 @@ PacmanGameView.prototype = {
 
 		setInterval(function(){
 	    	game.next();
-	        self.container.html('');
-		    self.createTable();
+	        
 		}, 200);
 
 		$(window).keyup(function(e){
@@ -128,5 +135,12 @@ PacmanGameView.prototype = {
 			}
 		}
 		
+	},
+
+	updateCell: function(y,x){
+		var div = this.container;
+		var position = y * this.game.cols + x;
+		div.find('td').eq(position).html(this.game.cell(y,x));
 	}
+
 }
