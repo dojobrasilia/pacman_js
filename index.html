@@ -32,7 +32,10 @@
 
 	<script type="text/javascript">
 		var game = new PacmanGame(11, 11);
-		new PacmanGameView(game, $("#pacman"));
+    game.setWall(0,0);
+    game.setWall(2,2);
+    game.setWall(2,1);
+    new PacmanGameView(game, $("#pacman"));
 	</script>
 
 
