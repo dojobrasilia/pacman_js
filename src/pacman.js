@@ -18,6 +18,7 @@ PacmanGame.prototype = {
 			right:  {y:+0,x:+1},
 			left:   {y:+0,x:-1}	
 		},
+
 	init: function(param1, param2){
 		if(type(param1) === "Array"){
 			this.rows = param1[0].length;
@@ -30,6 +31,8 @@ PacmanGame.prototype = {
 			this.board = [];
 			this.initBoard();
 		}
+
+		this.points = 0;
 
 		var center = Math.floor(this.rows/2);
 		this.pacState = "up";
@@ -81,13 +84,22 @@ PacmanGame.prototype = {
 
 	move : function(direction){
 		var probe = this.nextPosition(this.directions[this.pacState]);
-		if(this.cell(probe.y, probe.x) !== '#'){
+		if(this.isDot(probe)){
+			this.points ++;
+		}
+		if(! this.isWall(probe)){
 			this.eraseCurrentPosition();
-			this.pac_x = probe.x;
-			this.pac_y = probe.y;
 			this.currentPosition = probe;
 			this.updateFace();
 		}
+	},
+
+	isDot : function(position){
+		return this.cell(position.y, position.x) === '.';
+	},
+
+	isWall : function(position){
+		return this.cell(position.y, position.x) === '#';
 	},
 
 	changeDir : function(direction) {

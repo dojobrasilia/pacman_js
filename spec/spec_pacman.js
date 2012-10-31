@@ -42,6 +42,10 @@ describe("Pacman", function() {
       }
   });
 
+  it("starts with zero points", function(){
+    expect(this.game.points).toBe(0);   
+  });
+
   it("walks upwards at each turn", function() {
     this.game.next();
     expect(this.game.cell(0,1)).toBe('V');
@@ -127,6 +131,14 @@ describe("Pacman", function() {
       this.game.next();
       expect(this.game.cell(1,1)).toBe(' ');
       expect(this.game.cell(2,1)).toBe(' ');
+  });
+
+  it("counts one point per dot eaten", function(){
+      this.game.next();
+      expect(this.game.points).toBe(1);  
+      this.game.next();
+      this.game.next();
+      expect(this.game.points).toBe(2);  
   });
 
   it("notify observer when change direction", function(){
