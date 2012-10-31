@@ -34,8 +34,7 @@ PacmanGame.prototype = {
 		var center = Math.floor(this.rows/2);
 		this.pacState = "up";
 
-		this.pac_x = center;
-		this.pac_y = center;
+		this.currentPosition = {x: center, y: center};
 
 		this.updateFace();
 	},
@@ -59,8 +58,8 @@ PacmanGame.prototype = {
 	},
 
 	nextPosition : function(direction){
-		var pacX = this.pac_x;
-		var pacY = this.pac_y;
+		var pacX = this.currentPosition.x;
+		var pacY = this.currentPosition.y;
 		pacX += direction.x;
 		pacY += direction.y;
 
@@ -86,6 +85,7 @@ PacmanGame.prototype = {
 			this.eraseCurrentPosition();
 			this.pac_x = probe.x;
 			this.pac_y = probe.y;
+			this.currentPosition = probe;
 			this.updateFace();
 		}
 	},
@@ -96,13 +96,16 @@ PacmanGame.prototype = {
 	},
 
 	eraseCurrentPosition : function(){
-		this.board[this.pac_y][this.pac_x] = ' ';
-		if (this.view)	this.view.updateCell(this.pac_y,this.pac_x);
+		this.updateCell(this.currentPosition,' ');
 	},
 
 	updateFace : function(){
-		this.board[this.pac_y][this.pac_x] = this.pacFace[this.pacState];
-		if (this.view)	this.view.updateCell(this.pac_y,this.pac_x);
+		this.updateCell(this.currentPosition,this.pacFace[this.pacState]);
+	},
+
+	updateCell : function(position, value){
+		this.board[position.y][position.x] = value;
+		if (this.view)	this.view.updateCell(position.y,position.x);	
 	},
 
 	setView : function(view){
