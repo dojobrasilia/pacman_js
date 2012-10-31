@@ -1,32 +1,43 @@
-function PacmanGame(rows, cols){
-	this.init(rows,cols);
+function type(o){
+    return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
+}
+
+function PacmanGame(param1, param2){
+	this.init(param1, param2);
 }
 PacmanGame.prototype = {
-	init: function(rows, cols){
-		this.rows = rows;
-		this.cols = cols;
-		var center = Math.floor(rows/2);
+	pacFace : {
+			left:  '>',
+			right: '<',
+			down:  'A',
+			up:    'V'	
+		},
+	directions : {
+			up:     {y:-1,x:+0},
+			down:   {y:+1,x:+0},
+			right:  {y:+0,x:+1},
+			left:   {y:+0,x:-1}	
+		},
+	init: function(param1, param2){
+		if(type(param1) === "Array"){
+			this.rows = param1[0].length;
+			this.cols = param1[0][0].length;
+			this.levels = param1;
+			this.board = this.levels[0];
+		} else {
+			this.rows = param1;
+			this.cols = param2;
+			this.board = [];
+			this.initBoard();
+		}
+
+		var center = Math.floor(this.rows/2);
 		this.pacState = "up";
 
 		this.pac_x = center;
 		this.pac_y = center;
 
-		this.pacFace = {
-			left:  '>',
-			right: '<',
-			down:  'A',
-			up:    'V'	
-		}	
-
-		this.directions = {
-			up:     {y:-1,x:+0},
-			down:   {y:+1,x:+0},
-			right:  {y:+0,x:+1},
-			left:   {y:+0,x:-1}	
-		}
-		this.board = [];
-
-		this.initBoard();
+		this.updateFace();
 	},
 
 	initBoard : function(){
@@ -37,7 +48,6 @@ PacmanGame.prototype = {
 				row.push('.');
 			}
 		}
-		this.updateFace();
 	},
 
 	cell :  function(row, col){ 
