@@ -100,7 +100,6 @@ PacmanGame.prototype = {
 			this.remainingPointsInLevel --;
 			if (this.remainingPointsInLevel == 0){
 				this.setLevel(this.levels[1]);
-				return;
 			}
 		}
 		if(! this.isWall(probe)){

@@ -168,6 +168,31 @@ describe("Pacman", function() {
       expect(this.game.cell(0, 0)).toBe('#');
   });
 
+  it("changes level every time all dots are eaten", function(){
+      this.game = new PacmanGame([
+          // level 1
+          [
+            ['.',' ', ' ']
+          ],
+          //level 2
+          [
+            ['#',' ', '.']
+          ]
+        ]);
+
+      this.game.changeDir('left');
+      this.game.next();
+
+      this.game.changeDir('right');
+      this.game.next();
+
+      //returns to center
+      expect(this.game.cell(0, 1)).toBe('V');
+
+      //returns to level 1
+      expect(this.game.cell(0, 0)).toBe('.');
+  });
+
   it("notify observer when change direction", function(){
     var observer = new Object();
     var calledUpdate = false;
