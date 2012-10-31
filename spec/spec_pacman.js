@@ -6,8 +6,13 @@ describe("Pacman", function() {
 
   it("starts at the center", function() {
     var game = new PacmanGame(1,1);
-        
     expect(game.cell(0,0)).toBe('V');
+
+    var game = new PacmanGame(1,3);
+    expect(game.cell(0,1)).toBe('V');
+
+    var game = new PacmanGame(3,3);
+    expect(game.cell(1,1)).toBe('V');
   });
 
   it("lives on a dotted grid and starts in the center", function() {
@@ -134,11 +139,33 @@ describe("Pacman", function() {
   });
 
   it("counts one point per dot eaten", function(){
-      this.game.next();
+      this.game.next(); // dot
       expect(this.game.points).toBe(1);  
-      this.game.next();
-      this.game.next();
+      this.game.next(); // dot
+      this.game.next(); // blank
       expect(this.game.points).toBe(2);  
+  });
+
+  it("changes level when all dots are eaten", function(){
+      this.game = new PacmanGame([
+          // level 1
+          [
+            ['.',' ', ' ']
+          ],
+          //level 2
+          [
+            ['#',' ', '.']
+          ]
+        ]);
+
+      this.game.changeDir('left');
+      this.game.next();
+
+      //returns to center
+      expect(this.game.cell(0, 1)).toBe('V');
+
+      //in level 2 board
+      expect(this.game.cell(0, 0)).toBe('#');
   });
 
   it("notify observer when change direction", function(){

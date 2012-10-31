@@ -20,36 +20,47 @@ PacmanGame.prototype = {
 		},
 
 	init: function(param1, param2){
-		if(type(param1) === "Array"){
-			this.rows = param1[0].length;
-			this.cols = param1[0][0].length;
-			this.levels = param1;
-			this.board = this.levels[0];
-		} else {
-			this.rows = param1;
-			this.cols = param2;
-			this.board = [];
-			this.initBoard();
-		}
-
 		this.points = 0;
 
-		var center = Math.floor(this.rows/2);
+		if(type(param1) === "Array"){
+			this.levels = param1;
+		} else {
+			this.levels = [this.createBoard(param1,param2)];
+		}
+
+		this.setLevel(this.levels[0]);
+	},
+
+	setLevel : function(level){
+		this.board 	= level;
+
+		this.rows	= this.board.length;
+		this.cols	= this.board[0].length;
+
+		this.remainingPointsInLevel = 0;
+		for(var y = 0; y < this.rows; y ++){
+			for(var x = 0; x < this.cols; x ++){
+				if (this.isDot({x:x,y:y})) this.remainingPointsInLevel ++;
+			}
+		}
+
 		this.pacState = "up";
 
-		this.currentPosition = {x: center, y: center};
+		this.currentPosition = {x: Math.floor(this.cols/2), y: Math.floor(this.rows/2)};
 
 		this.updateFace();
 	},
 
-	initBoard : function(){
-		for(var y = 0; y < this.rows; y ++){
+	createBoard : function(rows, cols){
+		var board = [];
+		for(var y = 0; y < rows; y ++){
 			row = [];
-			this.board.push(row);
-			for(var x = 0; x < this.cols; x ++){
+			board.push(row);
+			for(var x = 0; x < cols; x ++){
 				row.push('.');
 			}
 		}
+		return board;
 	},
 
 	cell :  function(row, col){ 
@@ -86,6 +97,11 @@ PacmanGame.prototype = {
 		var probe = this.nextPosition(this.directions[this.pacState]);
 		if(this.isDot(probe)){
 			this.points ++;
+			this.remainingPointsInLevel --;
+			if (this.remainingPointsInLevel == 0){
+				this.setLevel(this.levels[1]);
+				return;
+			}
 		}
 		if(! this.isWall(probe)){
 			this.eraseCurrentPosition();
