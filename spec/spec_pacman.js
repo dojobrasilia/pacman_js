@@ -150,22 +150,28 @@ describe("Pacman", function() {
       this.game = new PacmanGame([
           // level 1
           [
-            ['.',' ', ' ']
+            ['#','.','#'],
+            ['#',' ','#'],
+            ['#','.','#']
           ],
           //level 2
           [
-            ['#',' ', '.']
+            [' ','.','#'],
+            ['.',' ','#'],
+            [' ','.','#']
           ]
         ]);
 
-      this.game.changeDir('left');
+      expect(this.game.cell(1, 1)).toBe('V');
+
+      this.game.next();
       this.game.next();
 
       //returns to center
-      expect(this.game.cell(0, 1)).toBe('V');
+      expect(this.game.cell(1, 1)).toBe('V');
 
       //in level 2 board
-      expect(this.game.cell(0, 0)).toBe('#');
+      expect(this.game.cell(0, 0)).toBe(' ');
   });
 
   it("changes level every time all dots are eaten", function(){
@@ -177,6 +183,10 @@ describe("Pacman", function() {
           //level 2
           [
             ['#',' ', '.']
+          ],
+          //level 3
+          [
+            ['.',' ', '.']
           ]
         ]);
 
@@ -189,8 +199,9 @@ describe("Pacman", function() {
       //returns to center
       expect(this.game.cell(0, 1)).toBe('V');
 
-      //returns to level 1
+      //goest to level 3
       expect(this.game.cell(0, 0)).toBe('.');
+      expect(this.game.cell(0, 2)).toBe('.');
   });
 
   it("notify observer when change direction", function(){

@@ -21,6 +21,7 @@ PacmanGame.prototype = {
 
 	init: function(param1, param2){
 		this.points = 0;
+		this.currentLevel = 0;
 
 		if(type(param1) === "Array"){
 			this.levels = param1;
@@ -46,9 +47,24 @@ PacmanGame.prototype = {
 
 		this.pacState = "up";
 
-		this.currentPosition = {x: Math.floor(this.cols/2), y: Math.floor(this.rows/2)};
+		this.currentPosition = {
+				x: Math.floor(this.cols/2), 
+				y: Math.floor(this.rows/2)
+			};
 
 		this.updateFace();
+	},
+
+	copyBoard : function(board){
+		var copy = [];
+		for(var y = 0; y < rows; y ++){
+			row = [];
+			copy.push(row);
+			for(var x = 0; x < cols; x ++){
+				row.push(board[y][x]);
+			}
+		}
+		return copy;
 	},
 
 	createBoard : function(rows, cols){
@@ -95,17 +111,32 @@ PacmanGame.prototype = {
 
 	move : function(direction){
 		var probe = this.nextPosition(this.directions[this.pacState]);
+
+		this.checkForDot(probe);
+		this.checkForWall(probe);
+		this.checkForLevelChange(probe);	
+
+	},
+
+	checkForDot: function(probe) {
 		if(this.isDot(probe)){
 			this.points ++;
 			this.remainingPointsInLevel --;
-			if (this.remainingPointsInLevel == 0){
-				this.setLevel(this.levels[1]);
-			}
 		}
+	},
+
+	checkForWall: function(probe) {
 		if(! this.isWall(probe)){
 			this.eraseCurrentPosition();
 			this.currentPosition = probe;
 			this.updateFace();
+		}
+	},
+
+	checkForLevelChange: function(probe){
+		if (this.remainingPointsInLevel == 0){
+			this.currentLevel ++;
+			this.setLevel(this.levels[this.currentLevel]);
 		}
 	},
 
