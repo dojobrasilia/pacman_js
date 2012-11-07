@@ -33,17 +33,11 @@ PacmanGame.prototype = {
 	},
 
 	setLevel : function(level){
-		this.board 	= level;
 
-		this.rows	= this.board.length;
-		this.cols	= this.board[0].length;
+		this.rows	= level.length;
+		this.cols	= level[0].length;
 
-		this.remainingPointsInLevel = 0;
-		for(var y = 0; y < this.rows; y ++){
-			for(var x = 0; x < this.cols; x ++){
-				if (this.isDot({x:x,y:y})) this.remainingPointsInLevel ++;
-			}
-		}
+		this.board 	= this.copyBoard(level);
 
 		this.pacState = "up";
 
@@ -53,14 +47,22 @@ PacmanGame.prototype = {
 			};
 
 		this.updateFace();
+
+		this.remainingPointsInLevel = 0;
+		for(var y = 0; y < this.rows; y ++){
+			for(var x = 0; x < this.cols; x ++){
+				if (this.isDot({x:x,y:y})) this.remainingPointsInLevel ++;
+			}
+		}
+
 	},
 
 	copyBoard : function(board){
 		var copy = [];
-		for(var y = 0; y < rows; y ++){
+		for(var y = 0; y < this.rows; y ++){
 			row = [];
 			copy.push(row);
-			for(var x = 0; x < cols; x ++){
+			for(var x = 0; x < this.cols; x ++){
 				row.push(board[y][x]);
 			}
 		}
@@ -136,7 +138,8 @@ PacmanGame.prototype = {
 	checkForLevelChange: function(probe){
 		if (this.remainingPointsInLevel == 0){
 			this.currentLevel ++;
-			this.setLevel(this.levels[this.currentLevel]);
+			this.setLevel(this.levels[this.currentLevel%this.levels.length]);
+			if (this.view)	this.view.updateLevel();	
 		}
 	},
 
@@ -223,6 +226,11 @@ PacmanGameView.prototype = {
 		var div = this.container;
 		var position = y * this.game.cols + x;
 		div.find('td').eq(position).html(this.game.cell(y,x));
+	},
+
+	updateLevel: function(){
+		this.container.html('');
+		this.createTable();
 	}
 
 }

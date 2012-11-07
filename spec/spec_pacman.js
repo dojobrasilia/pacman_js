@@ -174,6 +174,34 @@ describe("Pacman", function() {
       expect(this.game.cell(0, 0)).toBe(' ');
   });
 
+  it("ignores dot at the center", function(){
+      this.game = new PacmanGame([
+          // level 1
+          [
+            ['#','.','#'],
+            ['#','.','#'],
+            ['#','.','#']
+          ],
+          //level 2
+          [
+            [' ','.','#'],
+            ['.',' ','#'],
+            [' ','.','#']
+          ]
+        ]);
+
+      expect(this.game.cell(1, 1)).toBe('V');
+
+      this.game.next();
+      this.game.next();
+
+      //returns to center
+      expect(this.game.cell(1, 1)).toBe('V');
+
+      //in level 2 board
+      expect(this.game.cell(0, 0)).toBe(' ');
+  });
+
   it("changes level every time all dots are eaten", function(){
       this.game = new PacmanGame([
           // level 1
@@ -202,6 +230,32 @@ describe("Pacman", function() {
       //goest to level 3
       expect(this.game.cell(0, 0)).toBe('.');
       expect(this.game.cell(0, 2)).toBe('.');
+  });
+
+  it("changes return to first level when all is finished", function(){
+      this.game = new PacmanGame([
+          // level 1
+          [
+            ['.',' ', ' ']
+          ],
+          //level 2
+          [
+            ['#',' ', '.']
+          ]
+        ]);
+
+      this.game.changeDir('left');
+      this.game.next();
+
+      this.game.changeDir('right');
+      this.game.next();
+
+      //returns to center
+      expect(this.game.cell(0, 1)).toBe('V');
+
+      //goest to level 3
+      expect(this.game.cell(0, 0)).toBe('.');
+      expect(this.game.cell(0, 2)).toBe(' ');
   });
 
   it("notify observer when change direction", function(){
@@ -259,7 +313,20 @@ describe("PacmanView", function() {
   beforeEach(function(){
     jasmine.Clock.useMock();
     this.game = new PacmanGame(3,3);
+
+
+    this.hitKey = function(container, direction){
+      this.keyCode = {
+          'left' :37 ,
+          'up'   :38 ,
+          'right':39 ,
+          'down' :40  
+        };
+      $(container).trigger(jQuery.Event("keyup", { keyCode: this.keyCode[direction]}));
+    }
+
   });
+
 
   it("renders table with 1 cell", function() {
     var game = new PacmanGame(1,1);
@@ -315,25 +382,25 @@ describe("PacmanView", function() {
     var div = $('<div>');
     var gameView = new PacmanGameView(this.game,div);
 
-    $(window).trigger(jQuery.Event("keyup", { keyCode: 37 }));
+    this.hitKey(window,'left');
 
     jasmine.Clock.tick(201);
 
     expect(div.find('td').eq(3).text()).toBe('>');
 
-    $(window).trigger(jQuery.Event("keyup", { keyCode: 39 }));
+    this.hitKey(window,'right');
   
     jasmine.Clock.tick(201);
 
     expect(div.find('td').eq(4).text()).toBe('<');
-  
-    $(window).trigger(jQuery.Event("keyup", { keyCode: 38 }));
+    
+    this.hitKey(window,'up');
 
     jasmine.Clock.tick(201);
 
     expect(div.find('td').eq(1).text()).toBe('V');
 
-    $(window).trigger(jQuery.Event("keyup", { keyCode: 40 }));
+    this.hitKey(window,'down');
 
     jasmine.Clock.tick(201);
 
@@ -350,6 +417,31 @@ describe("PacmanView", function() {
 
     expect(div.find('td').eq(1).text()).toBe('V');
 
+  });
+
+  it("Renders new table on a new level ", function() {
+    var game = new PacmanGame(
+      [
+        [
+          ['.',' ',' ']
+        ],
+        [
+          ['.',' ','.'],
+          ['.',' ','.'],
+        ],
+      ]
+      );
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    this.hitKey(window,'left');
+
+    jasmine.Clock.tick(201);
+
+    expect(div).toContain('table');
+
+    expect(div.find('tr').length).toBe(2);
+    expect(div.find('td').length).toBe(6);
   });
 
 });
