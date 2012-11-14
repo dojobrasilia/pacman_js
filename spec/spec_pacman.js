@@ -340,6 +340,42 @@ describe("PacmanView", function() {
     expect(div.find('td').text()).toBe('V')
   });
 
+  it("renders score board div", function() {
+    var game = new PacmanGame(1,1);
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    expect(div).toContain('div');
+
+    expect(div.find('div').text()).toBe('0')
+  });
+
+ it("maintains the score in the next level", function() {
+    var game = new PacmanGame(
+      [
+        [
+          ['.',' ',' ']
+        ],
+        [
+          ['.',' ','.'],
+          ['.',' ','.'],
+        ],
+      ]
+      );
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
+
+    this.hitKey(window,'left');
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('div').text()).toBe('1');
+
+  });
+
+
+
+
   it("renders table with 3x3 cells", function() {
     var div = $('<div>');
     var gameView = new PacmanGameView(this.game,div);
@@ -377,6 +413,18 @@ describe("PacmanView", function() {
     expect(div.find('td').eq(8).text()).toBe('•');
 
   });
+
+  it("updates ScoreBoard at each new point", function() {
+    var div = $('<div>');
+
+    var gameView = new PacmanGameView(this.game,div);
+
+    jasmine.Clock.tick(201);
+    expect(div.find('div').text()).toBe('1');
+
+  });
+
+
 
   it("changes direction to left when presses on left arrow", function() {
     var div = $('<div>');

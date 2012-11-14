@@ -219,6 +219,9 @@ PacmanGameView.prototype = {
 				row.append($('<td>').html(value));	
 			}
 		}
+
+		var scoreBoard = $('<div>').appendTo(this.container);
+		scoreBoard.text(this.game.points);
 		
 	},
 
@@ -226,6 +229,7 @@ PacmanGameView.prototype = {
 		var div = this.container;
 		var position = y * this.game.cols + x;
 		div.find('td').eq(position).html(this.game.cell(y,x));
+		div.find('div').text(this.game.points);
 	},
 
 	updateLevel: function(){
