@@ -345,9 +345,9 @@ describe("PacmanView", function() {
     var div = $('<div>');
     var gameView = new PacmanGameView(game,div);
 
-    expect(div).toContain('div');
+    expect(div).toContain('div#score');
 
-    expect(div.find('div').text()).toBe('0')
+    expect(div.find('div#score').text()).toBe('0')
   });
 
  it("maintains the score in the next level", function() {
@@ -369,11 +369,34 @@ describe("PacmanView", function() {
 
     jasmine.Clock.tick(201);
 
-    expect(div.find('div').text()).toBe('1');
+    expect(div.find('div#score').text()).toBe('1');
 
   });
 
+ it("shows the current level", function() {
+    var game = new PacmanGame(
+      [
+        [
+          ['.',' ',' ']
+        ],
+        [
+          ['.',' ','.'],
+          ['.',' ','.'],
+        ],
+      ]
+      );
+    var div = $('<div>');
+    var gameView = new PacmanGameView(game,div);
 
+    this.hitKey(window,'left');
+
+    expect(div.find('div#level').text()).toBe('level 1');
+
+    jasmine.Clock.tick(201);
+
+    expect(div.find('div#level').text()).toBe('level 2');
+
+  });
 
 
   it("renders table with 3x3 cells", function() {
@@ -420,7 +443,7 @@ describe("PacmanView", function() {
     var gameView = new PacmanGameView(this.game,div);
 
     jasmine.Clock.tick(201);
-    expect(div.find('div').text()).toBe('1');
+    expect(div.find('div#score').text()).toBe('1');
 
   });
 

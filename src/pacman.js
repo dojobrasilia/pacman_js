@@ -220,8 +220,11 @@ PacmanGameView.prototype = {
 			}
 		}
 
-		var scoreBoard = $('<div>').appendTo(this.container);
+		var scoreBoard = $('<div id="score">').appendTo(this.container);
 		scoreBoard.text(this.game.points);
+
+		var levelBoard = $('<div id="level">').appendTo(this.container);
+		levelBoard.text("level " + (this.game.currentLevel+1));
 		
 	},
 
@@ -229,7 +232,7 @@ PacmanGameView.prototype = {
 		var div = this.container;
 		var position = y * this.game.cols + x;
 		div.find('td').eq(position).html(this.game.cell(y,x));
-		div.find('div').text(this.game.points);
+		div.find('div#score').text(this.game.points);
 	},
 
 	updateLevel: function(){
