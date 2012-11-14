@@ -82,11 +82,16 @@ PacmanGame.prototype = {
 	},
 
 	cell :  function(row, col){ 
+		if(this.ghostPosition  && this.ghostPosition.y==row && this.ghostPosition.x==col){
+			return 'Ö';
+		}
 		return this.board[row][col];
 	},
 
 	next : function(){
 		this.move(this.directions[this.pacState]);
+		
+		if (this.ghostPosition) this.ghostPosition.x++
 	},
 
 	nextPosition : function(direction){
@@ -176,6 +181,11 @@ PacmanGame.prototype = {
 	setWall : function(y,x){
 		this.board[y][x]='#';
 	},
+
+	setGhost: function (y,x) {
+		this.ghostPosition = {y:y,x:x}
+		// this.board[y][x] = 'Ö';
+	}
 }
 
 function PacmanGameView(game, container) {
@@ -220,12 +230,8 @@ PacmanGameView.prototype = {
 			}
 		}
 
-		var scoreBoard = $('<div id="score">').appendTo(this.container);
-		scoreBoard.text(this.game.points);
-
-		var levelBoard = $('<div id="level">').appendTo(this.container);
-		levelBoard.text("level " + (this.game.currentLevel+1));
-		
+		this.container.append($('<div id="score">').text(this.game.points))
+		this.container.append($('<div id="level">').text("level " + (this.game.currentLevel+1)))
 	},
 
 	updateCell: function(y,x){
