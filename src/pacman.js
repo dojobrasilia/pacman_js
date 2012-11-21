@@ -44,13 +44,22 @@ Pacman.prototype = {
 	},
 
 	move : function(probe){
+		this.board.erasePosition(this.position);
 		this.position = probe;
 		this.updateFace();
 	},
 
 	updateFace : function(){
-		this.board.updateCell(this.position,this.pacFace[this.state]);
+		this.board.updateCell(this.position, this.face());
 	},
 
+	face : function () {
+		return this.pacFace[this.state];
+	},
+
+	changeDirection : function(direction){
+		this.state = direction;
+		this.updateFace();
+	}
 
 }

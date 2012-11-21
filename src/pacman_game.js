@@ -67,19 +67,14 @@ PacmanGame.prototype = {
 	},
 
 	cell :  function(row, col){ 
-		if(this.ghostPosition  && this.ghostPosition.y==row && this.ghostPosition.x==col){
-			return 'Ö';
-		}
 		return this.board[row][col];
 	},
 
 	next : function(){
-		this.move();
-		
-		if (this.ghostPosition) this.ghostPosition.x++
+		this.movePacman();
 	},
 
-	move : function(){
+	movePacman : function(){
 		var probe = this.pacman.nextPosition();
 
 		if(this.isDot(probe)){
@@ -88,7 +83,6 @@ PacmanGame.prototype = {
 		}
 
 		if(! this.isWall(probe)){
-			this.eraseCurrentPosition();
 			this.pacman.move(probe);
 		}
 
@@ -107,17 +101,17 @@ PacmanGame.prototype = {
 		return this.cell(position.y, position.x) === '#';
 	},
 
-	changeDir : function(direction) {
-		this.pacman.state = direction;
-		this.pacman.updateFace();
+	changePacmanDirection : function(direction) {
+		this.pacman.changeDirection(direction);
 	},
 
-	eraseCurrentPosition : function(){
-		this.updateCell(this.pacman.position,' ');
+	erasePosition : function(position){
+		this.updateCell(position,' ');
 	},
 
 	updateCell : function(position, value){
 		this.board[position.y][position.x] = value;
+		// todo nao devia conhecer a view
 		if (this.view)	this.view.updateCell(position.y,position.x);	
 	},
 
@@ -129,10 +123,6 @@ PacmanGame.prototype = {
 		this.board[y][x]='#';
 	},
 
-	setGhost: function (y,x) {
-		this.ghostPosition = {y:y,x:x}
-		// this.board[y][x] = 'Ö';
-	}
 }
 
 function PacmanGameView(game, container) {
@@ -160,7 +150,7 @@ PacmanGameView.prototype = {
 
 		$(window).keyup(function(e){
 			if (self.keyCode[e.keyCode]){
-				game.changeDir(self.keyCode[e.keyCode]);
+				game.changePacmanDirection(self.keyCode[e.keyCode]);
 			}
 		});
 	},
